@@ -101,18 +101,18 @@ Use a [nossa comunidade](https://discord.gg/rdXbEvjsWu) para tirar dúvidas sobr
 
 ## Como Rodar o Projeto
 
-1 - git clone https://github.com/patino97/ParseProduto.git
-2 - composer install
-3 - Renomear .env.example para .env 
-4 - php artisan key:generate
-5 - Crie um banco de dados para o projeto
-6 - Configure seu arquivo .env
+1. git clone https://github.com/patino97/ParseProduto.git
+2. composer install
+3. Renomear .env.example para .env 
+4. php artisan key:generate
+5. Crie um banco de dados para o projeto
+6. Configure seu arquivo .env
 
 ## Docker
 
-1 - git clone https://github.com/patino97/ParseProduto.git
-2 - docker compose -f docker-compose.yaml up -d
-3 - configure seu banco de dados e a suas .env
+1. git clone https://github.com/patino97/ParseProduto.git
+2. docker compose -f docker-compose.yaml up -d
+3. configure seu banco de dados e a suas .env
 
 * Teste a conexão utilizando o comando
 
