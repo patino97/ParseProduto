@@ -1,0 +1,31 @@
+name: 'api-food-service'
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: backend-app
+    restart: unless-stopped
+    volumes:
+        - "./:/var/www/html"
+    ports:
+        - "8000:8000"
+    depends_on:
+        - mysql
+    networks:
+      default:
+  mysql:
+    image: mysql:8.0.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: laravel
+      MYSQL_DATABASE: laravel_db
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    networks:
+      default:
+
+networks:
+  default:

@@ -87,3 +87,54 @@ Na REST API teremos um CRUD com os seguintes endpoints:
 ## Suporte
 
 Use a [nossa comunidade](https://discord.gg/rdXbEvjsWu) para tirar dúvidas sobre o processo ou envie uma mensagem diretamente a um especialista no chat da plataforma. 
+
+## Requisitos
+
+* PHP 8.2 ou superior
+* MySQL 8 ou superior
+* Composer
+
+
+## Tecnologias
+
+* Devido algumas dificuldade com drivers do mongoDB e problemas com a versão do Laravel, foi usado um banco de dado relacional(SQL), Mysql.
+
+## Como Rodar o Projeto
+
+1 - git clone https://github.com/patino97/ParseProduto.git
+2 - composer install
+3 - Renomear .env.example para .env 
+4 - php artisan key:generate
+5 - Crie um banco de dados para o projeto
+6 - Configure seu arquivo .env
+
+## Docker
+
+1 - git clone https://github.com/patino97/ParseProduto.git
+2 - docker compose -f docker-compose.yaml up -d
+3 - configure seu banco de dados e a suas .env
+
+* Teste a conexão utilizando o comando
+
+```
+php artisan migrate
+```
+
+## Banco de Dados
+
+* Esta etapa só é necessário caso não tenha rodado o projeto com o docker compose. 
+
+* Para facilitar nessa parte foi criado um arquivo docker-compose-mysql.yaml, basta ter o docker instalado em sua máquina e rodar o comando:
+
+```
+docker compose -f docker-compose-mysql.yaml up -d
+```
+
+* observe que no docker compose a string de conexão estará disponível, copie e cole a string para o arquivo .env e terá um banco de dados disponível para rodar o projeto.
+
+teste a conexão e já faça a migração das tabelas necessárias para o BD utilizando o comando abaixo:
+
+```
+php artisan migrate
+```
+
