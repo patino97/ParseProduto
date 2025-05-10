@@ -11,6 +11,7 @@ use Essa\APIToolKit\Api\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Js;
+use App\Http\Controllers\API\Response;
 
 class ProductsController extends Controller
 {
@@ -27,7 +28,7 @@ class ProductsController extends Controller
         $products = Products::useFilters()->get();
 
         return ProductsResource::collection($products);
-        
+
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
@@ -44,23 +45,77 @@ class ProductsController extends Controller
         return $this->responseCreated('Products created successfully', new ProductsResource($products));
     }
 
-    public function show(Products $products): JsonResponse
+    public function show($id): JsonResponse
     {
-        return $this->responseSuccess(null, new ProductsResource($products));
+            try {
+    
+                $products = Products::where('id', $id)->first();
+    
+                if (!$products) {
+                    return response()->json([
+                        'status' => false,
+                        'error' => 'Cliente nao encontrado.',
+                    ], JsonResponse::HTTP_NOT_FOUND);
+                }
+    
+                return $this->responseSuccess('Produtos recuperados com sucesso', new ProductsResource($products));
+            
+            } catch (\Exception $e) {
+                return response()->json([
+                    'status' => false,
+                    'error' => 'Erro ao buscar cliente.',
+                    'details' => $e->getMessage(),
+                ], 422);
+            }
     }
 
-    public function update(UpdateProductsRequest $request, Products $products): JsonResponse
+    public function update(UpdateProductsRequest $request, $id): JsonResponse
     {
-        $products->update($request->validated());
+        try {
+            $products = Products::where('id', $id)->first();
 
-        return $this->responseSuccess('Products updated Successfully', new ProductsResource($products));
+            if (!$products) {
+                return response()->json([
+                    'status' => false,
+                    'error' => 'Produto nao encontrado.',
+                ], JsonResponse::HTTP_NOT_FOUND);
+            }
+            
+            $validatedData = $request->validated();
+            $products->update($validatedData);
+           
+            return $this->responseSuccess('Products updated Successfully', new ProductsResource($products));
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'error' => 'Erro ao atualizar produto.',
+                'details' => $e->getMessage(),
+            ], 422);
+        }
     }
 
-    public function destroy(Products $products): JsonResponse
+    public function destroy($id): JsonResponse
     {
-        $products->delete();
+     try {
+        $products = Products::where('id', $id)->first();
 
-        return $this->responseDeleted();
+            if (!$products) {
+                return response()->json([
+                    'status' => false,
+                    'error' => 'Produto nao encontrado.',
+                ], JsonResponse::HTTP_NOT_FOUND);
+            }   
+            $products->delete();
+
+            return $this->responseDeleted();
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'error' => 'Erro ao deletar produto.',
+                'details' => $e->getMessage(),
+            ], 422);
+        }
     }
 
    
