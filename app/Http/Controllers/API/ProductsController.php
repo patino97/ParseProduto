@@ -38,13 +38,6 @@ class ProductsController extends Controller
         }
     }
 
-    public function store(CreateProductsRequest $request): JsonResponse
-    {
-        $products = Products::create($request->validated());
-
-        return $this->responseCreated('Products created successfully', new ProductsResource($products));
-    }
-
     public function show($id): JsonResponse
     {
             try {
