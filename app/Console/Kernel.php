@@ -2,10 +2,10 @@
 
 namespace App\Console;
 
+use App\Jobs\OpenFoofFacts;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Console\Commands\CommandUpdateProducts;
-use App\Jobs\OpenFoofFacts;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -14,7 +14,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->job(new OpenFoofFacts())->dailyAt('00:00');
+        $schedule->job(new OpenFoofFacts())->dailyAt("01:00")->onFailure(function () {
+            Log::info('Failed to update products.');
+        });
     }
 
     /**
