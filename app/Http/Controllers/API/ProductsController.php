@@ -25,7 +25,7 @@ class ProductsController extends Controller
     public function index(): JsonResponse|AnonymousResourceCollection
     {
       try {
-        $products = Products::useFilters()->get();
+        $products = Products::useFilters()->paginate(15);
 
         return ProductsResource::collection($products);
 
